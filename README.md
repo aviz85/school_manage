@@ -20,22 +20,28 @@ This is the initial phase of a school management system built using the Django f
 ## Installation and Setup
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/aviz85/school_manage.git
-   cd school_manage
-   ```
+   - Open Cursor software
+   - In the bottom panel, open the terminal
+   - Type the following command:
+     ```
+     git clone https://github.com/aviz85/school_manage.git
+     ``` 
 
-2. Checkout the `server-1` branch:
+2. Open the project folder:
+   Use Cursor's "Open Folder" option to open the `school_manage` folder.
+
+3. Checkout the `server-1` branch:
+   In the terminal, run:
    ```
    git checkout server-1
    ```
 
-3. Create a virtual environment:
+4. Create a virtual environment:
    ```
    python -m venv venv
    ```
 
-4. Activate the virtual environment:
+5. Activate the virtual environment:
    - On Windows:
      ```
      venv\Scripts\activate
@@ -45,34 +51,34 @@ This is the initial phase of a school management system built using the Django f
      source venv/bin/activate
      ```
 
-5. Install the required packages:
+6. Install the required packages:
    ```
    pip install -r requirements.txt
    ```
 
-6. Apply database migrations:
+7. Apply database migrations:
    ```
    python manage.py migrate
    ```
 
-7. Create a superuser for admin access:
+8. Create a superuser for admin access:
    ```
    python manage.py createsuperuser
    ```
    Follow the prompts to set up your admin username and password.
 
-8. (Optional) Populate the database with demo data:
+9. (Optional) Populate the database with demo data:
    ```
    python manage.py populate_db
    ```
    This command will create fake data for demonstration purposes.
 
-9. Run the development server:
-   ```
-   python manage.py runserver
-   ```
+10. Run the development server:
+    ```
+    python manage.py runserver
+    ```
 
-10. Access the admin panel:
+11. Access the admin panel:
     Open a web browser and go to `http://127.0.0.1:8000/admin/`
     Log in using the superuser credentials you created in step 7.
 
