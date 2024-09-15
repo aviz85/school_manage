@@ -21,8 +21,8 @@ This is the initial phase of a school management system built using the Django f
 
 1. Clone the repository:
    ```
-   git clone <repository-url>
-   cd <project-directory>
+   git clone https://github.com/aviz85/school_manage.git
+   cd school_manage
    ```
 
 2. Checkout the `server-1` branch:
