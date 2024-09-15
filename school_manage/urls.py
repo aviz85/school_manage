@@ -15,10 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from core import views as core_views
+from django.urls import path, include, re_path
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from core import views
+from django.views.generic import TemplateView
+from django.views.static import serve
+
+router = DefaultRouter()
+router.register(r'students', views.StudentViewSet)
+router.register(r'teachers', views.TeacherViewSet)
+router.register(r'courses', views.CourseViewSet)
+router.register(r'enrollments', views.EnrollmentViewSet)
+router.register(r'grades', views.GradeViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('add_student/', core_views.add_student, name='add_student'),
+    path('api/', include(router.urls)),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # Keep your existing URL patterns
+    # path('add_student/', views.add_student, name='add_student'),
+    re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
 ]
