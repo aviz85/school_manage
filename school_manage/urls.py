@@ -16,9 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from core import views as core_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', core_views.login_view, name='login'),  # Make this the main page
+    path('home/', core_views.home_view, name='home'),
     path('add_student/', core_views.add_student, name='add_student'),
+    path('add_teacher/', core_views.add_teacher, name='add_teacher'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('inbox/', core_views.inbox, name='inbox'),
+    path('send_message/', core_views.send_message, name='send_message'),
+    path('view_message/<int:message_id>/', core_views.view_message, name='view_message'),
 ]

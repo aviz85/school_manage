@@ -5,16 +5,19 @@
 1. **Add New Students**
    - As an administrator, I want to add new students to the system, so that I can keep track of all enrolled students.
 
-2. **Assign Teachers to Courses**
+2. **Add New Teachers**
+   - As an administrator, I want to add new teachers to the system, so that I can manage the teaching staff effectively.
+
+3. **Assign Teachers to Courses**
    - As an administrator, I want to assign teachers to courses, so that each course has a designated instructor.
 
-3. **Generate Performance Reports**
+4. **Generate Performance Reports**
    - As an administrator, I want to generate reports on student performance across all courses, so that I can assess overall academic progress.
 
-4. **Manage User Accounts and Permissions**
+5. **Manage User Accounts and Permissions**
    - As an administrator, I want to manage user accounts and permissions, so that I can control access to different parts of the system.
 
-5. **Manage Course Catalog**
+6. **Manage Course Catalog**
    - As an administrator, I want to view and manage the school's course catalog, so that I can ensure all necessary courses are available.
 
 ## Teacher User Stories
@@ -34,6 +37,9 @@
 5. **View Student Performance Reports**
    - As a teacher, I want to view individual student performance reports, so that I can identify areas where students may need additional support.
 
+6. **Send and Receive Messages**
+   - As a teacher, I want to send and receive messages to/from students, administrators, and other teachers, so that I can communicate effectively within the school system.
+
 ## Student User Stories
 
 1. **View Course Schedule**
@@ -50,3 +56,20 @@
 
 5. **View Overall Academic Performance**
    - As a student, I want to view my overall GPA and academic standing, so that I can understand my overall performance.
+
+6. **Send and Receive Messages**
+   - As a student, I want to send and receive messages to/from teachers, administrators, and other students, so that I can communicate effectively within the school system.
+
+## General User Stories
+
+1. **Login to the System**
+   - As a user, I want to securely log in to the system, so that I can access my personalized dashboard and features.
+
+2. **View and Manage Inbox**
+   - As a user, I want to view my inbox, read messages, and see unread message notifications, so that I can stay updated on important communications.
+
+3. **Send Messages**
+   - As a user, I want to compose and send messages to other users in the system, so that I can communicate with teachers, students, or administrators as needed.
+
+4. **Logout from the System**
+   - As a user, I want to securely log out from the system, so that I can protect my account when I'm done using it.

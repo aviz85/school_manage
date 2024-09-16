@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 class UserProfile(models.Model):
     USER_TYPE_CHOICES = (
@@ -24,8 +25,13 @@ class Student(models.Model):
 
 class Teacher(models.Model):
     user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    employee_id = models.CharField(max_length=20, unique=True)
+    employee_id = models.CharField(max_length=20, unique=True, blank=True)
     subject = models.CharField(max_length=100)
+
+    def save(self, *args, **kwargs):
+        if not self.employee_id:
+            self.employee_id = f"T-{uuid.uuid4().hex[:8].upper()}"
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user_profile.user.get_full_name()} - {self.subject}"
@@ -57,3 +63,14 @@ class Grade(models.Model):
 
     def __str__(self):
         return f"{self.enrollment.student} - {self.enrollment.course}: {self.grade}"
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"From {self.sender} to {self.recipient}: {self.subject}"

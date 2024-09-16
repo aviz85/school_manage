@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Welcome, {{ user.username }} ({{ user_type }})</h2>
+
+{% if user_type == 'ADMIN' %}
+<h3>Admin Dashboard</h3>
+<ul class="button-list">
+    <li><a href="{% url 'add_student' %}" class="btn">Add New Student</a></li>
+    <li><a href="{% url 'add_teacher' %}" class="btn">Add New Teacher</a></li>
+    <!-- Add more admin-specific links here -->
+</ul>
+{% elif user_type == 'TEACHER' %}
+<h3>Teacher Dashboard</h3>
+<ul class="button-list">
+    <li><a href="#" class="btn">View My Courses</a></li>
+    <!-- Add more teacher-specific links here -->
+</ul>
+{% elif user_type == 'STUDENT' %}
+<h3>Student Dashboard</h3>
+<ul class="button-list">
+    <li><a href="#" class="btn">View My Grades</a></li>
+    <!-- Add more student-specific links here -->
+</ul>
+{% endif %}
+{% endblock %}

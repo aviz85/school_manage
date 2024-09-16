@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Inbox</h2>
+<a href="{% url 'send_message' %}" class="btn">Compose New Message</a>
+<table>
+    <thead>
+        <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in messages %}
+        <tr {% if not message.is_read %}style="font-weight: bold;"{% endif %}>
+            <td>{{ message.sender.username }}</td>
+            <td><a href="{% url 'view_message' message.id %}">{{ message.subject }}</a></td>
+            <td>{{ message.timestamp }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No messages in your inbox.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

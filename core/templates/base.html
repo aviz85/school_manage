@@ -4,17 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --header-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        header {
+            background-color: var(--primary-color);
+            color: var(--header-color);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+        nav a {
+            color: var(--header-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .content-container {
+            background-color: var(--header-color);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+        footer {
+            background-color: var(--primary-color);
+            color: var(--header-color);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        .btn {
+            background-color: var(--secondary-color);
+            color: var(--header-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background-color: #27ae60;
+        }
+        .unread-count {
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: var(--primary-color);
+            color: var(--header-color);
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Add these new styles */
+        .button-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .button-list li {
+            margin-bottom: 10px;
+        }
+
+        .button-list .btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <!-- Add navigation here -->
+        <nav>
+            <div class="logo">School Management System</div>
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'home' %}">Home</a>
+                    {% if user.userprofile.user_type == 'ADMIN' %}
+                        <a href="{% url 'add_student' %}">Add Student</a>
+                        <a href="{% url 'add_teacher' %}">Add Teacher</a>
+                    {% endif %}
+                    <a href="{% url 'inbox' %}">
+                        Inbox
+                        {% if unread_messages_count > 0 %}
+                            <span class="unread-count">{{ unread_messages_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+        </nav>
     </header>
     <main>
-        {% block content %}
-        {% endblock %}
+        <div class="content-container">
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
     <footer>
-        <!-- Add footer content here -->
+        <p>&copy; 2024 School Management System. All rights reserved.</p>
     </footer>
 </body>
 </html>
