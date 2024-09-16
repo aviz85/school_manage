@@ -1,14 +1,18 @@
-# School Management System - Server Side (Part 2)
+# School Management System - Server Side (Part 3)
 
 ## Overview
 
-This is the second phase of a school management system built using the Django framework. We've expanded on the initial data models and admin interface by implementing our first feature: adding new students to the system.
+This is the third phase of a school management system built using the Django framework. We've expanded on the previous implementation by adding user authentication, a messaging system, and improving the overall user interface.
 
 ## Current Implementation
 
 - Basic data models for the school system
 - Django admin interface configuration
-- "Add Student" feature
+- User authentication (login/logout)
+- Add Student feature
+- Add Teacher feature
+- Messaging system
+- Improved UI with a responsive design
 
 ## Models
 
@@ -17,15 +21,26 @@ This is the second phase of a school management system built using the Django fr
 - Teacher: Stores teacher-specific information
 - Course: Represents academic courses
 - Enrollment: Manages student enrollments in courses
+- Message: Handles the messaging system between users
 
-## New Feature: Add Student
+## New Features
 
-We've implemented a new feature that allows authorized users to add new students to the system. This feature includes:
+1. **User Authentication**
+   - Login and logout functionality
+   - User-specific views based on user type (Admin, Teacher, Student)
 
-1. A new view function `add_student` in `core/views.py`
-2. A form `StudentForm` in `core/forms.py` for handling student data input
-3. A new template `add_student.html` for rendering the form
-4. A new URL path in `school_manage/urls.py` to access the feature
+2. **Add Teacher**
+   - Allows administrators to add new teachers to the system
+   - Automatically generates a unique employee ID for each teacher
+
+3. **Messaging System**
+   - Users can send and receive messages
+   - Inbox view to display received messages
+   - Unread message count displayed in the header
+
+4. **Improved UI**
+   - Responsive design using custom CSS
+   - Cleaner and more modern look with improved typography and color scheme
 
 ## Installation and Setup
 
@@ -37,9 +52,9 @@ We've implemented a new feature that allows authorized users to add new students
 2. Open the project folder:
    Use your preferred IDE or text editor to open the `school_manage` folder.
 
-3. Checkout the `server-2` branch:
+3. Checkout the `server-3` branch:
    ```
-   git checkout server-2
+   git checkout server-3
    ```
 
 4. Create and activate a virtual environment:
@@ -73,49 +88,42 @@ We've implemented a new feature that allows authorized users to add new students
    python manage.py runserver
    ```
 
-## Testing the Add Student Feature
+## Testing the New Features
 
-1. Access the admin panel:
-   Open a web browser and go to `http://127.0.0.1:8000/admin/`
-   Log in using the superuser credentials you created.
+1. Access the login page:
+   Open a web browser and go to `http://127.0.0.1:8000/`
 
-2. Navigate to the Add Student page:
-   Go to `http://127.0.0.1:8000/add_student/`
+2. Log in using the superuser credentials you created.
 
-3. Fill out the form with student details:
-   - First Name
-   - Last Name
-   - Email
-   - Date of Birth
-   - Grade
+3. Explore the dashboard:
+   - For admin users: Add new students or teachers
+   - For all users: Send and receive messages
 
-4. Submit the form to create a new student.
+4. Test the messaging system:
+   - Click on the "Inbox" link in the header
+   - Compose a new message
+   - Check for unread message notifications
 
-5. Verify the new student:
-   - Check the admin panel under the "Students" section
-   - Or use the Django shell to query the database:
-     ```
-     python manage.py shell
-     from core.models import Student
-     Student.objects.all()
-     ```
+5. Log out and log in as different user types to test role-specific features.
 
 ## Project Structure
 
 - `core/`: Main application containing models, views, forms, and templates
-  - `views.py`: Contains the `add_student` view function
-  - `forms.py`: Contains the `StudentForm` for adding students
-  - `templates/core/add_student.html`: Template for the add student form
+  - `views.py`: Contains view functions for various features
+  - `forms.py`: Contains forms for adding students and teachers
+  - `models.py`: Defines data models including the new Message model
+  - `templates/`: Contains HTML templates for different pages
 - `school_manage/`: Project settings and configuration
-  - `urls.py`: Updated with the new URL path for adding students
+  - `urls.py`: Updated with new URL paths for authentication and messaging
 - `manage.py`: Django's command-line utility for administrative tasks
 
 ## Next Steps
 
-In future phases, we'll continue to add more features such as:
-- Listing and editing existing students
-- Managing courses and enrollments
-- Implementing a user authentication system
+In future phases, we plan to add more features such as:
+- Course management (creation, assignment, enrollment)
+- Grade input and reporting
+- Advanced user profile management
+- API development for potential frontend integration
 
 ## Contributing
 
