@@ -88,6 +88,24 @@ class GradeViewSet(viewsets.ModelViewSet):
     serializer_class = GradeSerializer
     permission_classes = [IsAuthenticated]
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Student, Teacher, Course
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_statistics(request):
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
+    total_courses = Course.objects.count()
+
+    return Response({
+        'totalStudents': total_students,
+        'totalTeachers': total_teachers,
+        'totalCourses': total_courses,
+    })
+
 # Keep your existing views if needed
 # def add_student(request):
 #     ...

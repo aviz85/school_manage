@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './WelcomeScreen.css';
+import Statistics from './Statistics';
+import SchoolIllustration from './SchoolIllustration';
 
 const WelcomeScreen: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +18,9 @@ const WelcomeScreen: React.FC = () => {
   return (
     <div className="welcome-screen">
       <h1>Welcome to the School Management System</h1>
+      <SchoolIllustration />
       <p>Hello, {username}! You've successfully logged in.</p>
+      <Statistics />
       <div className="menu">
         <button onClick={() => navigate('/students')}>Manage Students</button>
         <button onClick={() => navigate('/teachers')}>Manage Teachers</button>

@@ -46,3 +46,8 @@
   .logout-button:hover {
     background-color: #c82333;
   }
+
+/* New styles for the illustration */
+.welcome-screen svg {
+  margin-bottom: 2rem;
+}

@@ -21,6 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core import views
 from django.views.generic import TemplateView
 from django.views.static import serve
+from core.views import get_statistics
 
 router = DefaultRouter()
 router.register(r'students', views.StudentViewSet)
@@ -34,6 +35,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/statistics/', get_statistics, name='get_statistics'),
     # Keep your existing URL patterns
     # path('add_student/', views.add_student, name='add_student'),
     re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
