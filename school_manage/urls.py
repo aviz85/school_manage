@@ -38,5 +38,7 @@ urlpatterns = [
     path('api/statistics/', get_statistics, name='get_statistics'),
     # Keep your existing URL patterns
     # path('add_student/', views.add_student, name='add_student'),
-    re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
+    
+    # Serve index.html for any other routes
+    re_path(r'^', TemplateView.as_view(template_name='index.html')),
 ]
