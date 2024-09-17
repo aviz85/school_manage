@@ -293,7 +293,7 @@
     - Authentication: Required
 
 35. **Get Unread Message Count**
-    - URL: `/api/messages/unread-count/`
+    - URL: `/api/messages/unread_count/`
     - Method: GET
     - Description: Get the count of unread messages for the authenticated user
     - Authentication: Required

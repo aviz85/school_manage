@@ -37,7 +37,8 @@
   border-radius: 4px;
   padding: 15px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, background-color 0.3s;
+  cursor: pointer;
 }
 
 .message:hover {
@@ -48,22 +49,35 @@
   border-left: 4px solid #007bff;
 }
 
+.message.expanded {
+  background-color: #f8f9fa;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .message-subject {
-  margin: 0 0 10px 0;
+  margin: 0;
   color: #333;
+  font-size: 1.1em;
 }
 
 .message-sender {
-  font-weight: bold;
-  margin: 0 0 5px 0;
+  margin: 0;
   color: #555;
-}
-
-.message-content {
-  margin: 0 0 10px 0;
-  color: #666;
+  font-size: 0.9em;
 }
 
 .message-timestamp {
   color: #999;
+  font-size: 0.8em;
+}
+
+.message-content {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
 }

@@ -106,3 +106,76 @@
 .verify-button:hover:not(:disabled) {
   background-color: #138496;
 }
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Add these styles to your existing CSS */
+.autocomplete-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.autocomplete-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.autocomplete-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.reply-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.reply-button:hover {
+  background-color: #0056b3;
+}
+
+/* Add these styles to your existing CSS */
+.form-group .react-select__control {
+  border-color: #ddd;
+  box-shadow: none;
+}
+
+.form-group .react-select__control:hover {
+  border-color: #b3b3b3;
+}
+
+.form-group .react-select__control--is-focused {
+  border-color: #007bff;
+  box-shadow: 0 0 0 1px #007bff;
+}
+
+.form-group .react-select__menu {
+  z-index: 2;
+}
+
+.form-group .react-select__option--is-selected {
+  background-color: #007bff;
+}
+
+.form-group .react-select__option--is-focused {
+  background-color: #deebff;
+}

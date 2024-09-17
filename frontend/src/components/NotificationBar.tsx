@@ -17,7 +17,7 @@ const NotificationBar: React.FC = () => {
     };
 
     fetchUnreadCount();
-    const interval = setInterval(fetchUnreadCount, 60000);
+    const interval = setInterval(fetchUnreadCount, 60000); // Check every minute
 
     return () => clearInterval(interval);
   }, []);
@@ -26,7 +26,7 @@ const NotificationBar: React.FC = () => {
     <div className="notification-bar">
       <Link to="/welcome" className="home-button">Home</Link>
       <Link to="/messages" className="messages-button">
-        Messages <span className="unread-count">{unreadCount}</span>
+        Messages {unreadCount > 0 && <span className="unread-count">{unreadCount}</span>}
       </Link>
     </div>
   );

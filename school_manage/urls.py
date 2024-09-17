@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core import views
 from django.views.generic import TemplateView
 from django.views.static import serve
-from core.views import get_statistics, test_openai
+from core.views import get_statistics, test_openai, UserViewSet
 
 router = DefaultRouter()
 router.register(r'students', views.StudentViewSet)
@@ -29,7 +29,8 @@ router.register(r'teachers', views.TeacherViewSet)
 router.register(r'courses', views.CourseViewSet)
 router.register(r'enrollments', views.EnrollmentViewSet)
 router.register(r'grades', views.GradeViewSet)
-router.register(r'messages', views.MessageViewSet)
+router.register(r'messages', views.MessageViewSet, basename='message')
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,7 +41,6 @@ urlpatterns = [
     # Add these new URL patterns for the messaging system
     path('api/messages/inbox/', views.MessageViewSet.as_view({'get': 'inbox'}), name='message-inbox'),
     path('api/messages/sent/', views.MessageViewSet.as_view({'get': 'sent'}), name='message-sent'),
-    path('api/messages/unread-count/', views.MessageViewSet.as_view({'get': 'unread_count'}), name='message-unread-count'),
     path('api/messages/<int:pk>/mark-as-read/', views.MessageViewSet.as_view({'post': 'mark_as_read'}), name='message-mark-as-read'),
     path('api/messages/verify/', views.MessageViewSet.as_view({'post': 'verify'}), name='verify-message'),
     
