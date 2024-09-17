@@ -240,4 +240,70 @@
     - Description: Delete a specific grade
     - Authentication: Required
 
+## Message Endpoints
+
+28. **List Messages**
+    - URL: `/api/messages/`
+    - Method: GET
+    - Description: Retrieve a list of all messages for the authenticated user
+    - Authentication: Required
+
+29. **Create Message**
+    - URL: `/api/messages/`
+    - Method: POST
+    - Description: Create a new message
+    - Authentication: Required
+    - Request Body:
+      ```json
+      {
+        "recipient": "integer",
+        "subject": "string",
+        "content": "string"
+      }
+      ```
+
+30. **Retrieve Message**
+    - URL: `/api/messages/{id}/`
+    - Method: GET
+    - Description: Retrieve details of a specific message
+    - Authentication: Required
+
+31. **Update Message**
+    - URL: `/api/messages/{id}/`
+    - Method: PUT/PATCH
+    - Description: Update details of a specific message (limited to sender)
+    - Authentication: Required
+
+32. **Delete Message**
+    - URL: `/api/messages/{id}/`
+    - Method: DELETE
+    - Description: Delete a specific message
+    - Authentication: Required
+
+33. **Get Inbox Messages**
+    - URL: `/api/messages/inbox/`
+    - Method: GET
+    - Description: Retrieve all messages received by the authenticated user
+    - Authentication: Required
+
+34. **Get Sent Messages**
+    - URL: `/api/messages/sent/`
+    - Method: GET
+    - Description: Retrieve all messages sent by the authenticated user
+    - Authentication: Required
+
+35. **Get Unread Message Count**
+    - URL: `/api/messages/unread-count/`
+    - Method: GET
+    - Description: Get the count of unread messages for the authenticated user
+    - Authentication: Required
+
+36. **Mark Message as Read**
+    - URL: `/api/messages/{id}/mark-as-read/`
+    - Method: POST
+    - Description: Mark a specific message as read
+    - Authentication: Required
+
+Note: All message endpoints require authentication. Include the access token in the Authorization header as `Bearer <token>` for all requests.
+
 Note: All endpoints require authentication. Include the access token in the Authorization header as `Bearer <token>` for all requests except the token obtain and refresh endpoints.

@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from .models import UserProfile, Student, Teacher, Course, Enrollment, Grade
+from .models import UserProfile, Student, Teacher, Course, Enrollment, Grade, Message
 from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 import uuid
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import StudentSerializer, TeacherSerializer, CourseSerializer, EnrollmentSerializer, GradeSerializer
+from .serializers import StudentSerializer, TeacherSerializer, CourseSerializer, EnrollmentSerializer, GradeSerializer, MessageSerializer
 
 class StudentForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30)
@@ -105,6 +107,50 @@ def get_statistics(request):
         'totalTeachers': total_teachers,
         'totalCourses': total_courses,
     })
+
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Message.objects.filter(Q(recipient=user) | Q(sender=user))
+
+    @action(detail=False, methods=['get'])
+    def unread_count(self, request):
+        count = Message.objects.filter(recipient=request.user, is_read=False).count()
+        return Response({'unread_count': count})
+
+    @action(detail=True, methods=['post'])
+    def mark_as_read(self, request, pk=None):
+        message = self.get_object()
+        message.is_read = True
+        message.save()
+        return Response({'status': 'message marked as read'})
+
+    @action(detail=False, methods=['get'])
+    def inbox(self, request):
+        messages = Message.objects.filter(recipient=request.user).order_by('-timestamp')
+        page = self.paginate_queryset(messages)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(messages, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def sent(self, request):
+        messages = Message.objects.filter(sender=request.user).order_by('-timestamp')
+        page = self.paginate_queryset(messages)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(messages, many=True)
+        return Response(serializer.data)
 
 # Keep your existing views if needed
 # def add_student(request):

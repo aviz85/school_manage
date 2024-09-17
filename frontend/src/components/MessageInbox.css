@@ -1,0 +1,69 @@
+.message-inbox {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-inbox-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.compose-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.compose-button:hover {
+  background-color: #0056b3;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  background-color: white;
+  border-radius: 4px;
+  padding: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+}
+
+.message:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.message.unread {
+  border-left: 4px solid #007bff;
+}
+
+.message-subject {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  color: #555;
+}
+
+.message-content {
+  margin: 0 0 10px 0;
+  color: #666;
+}
+
+.message-timestamp {
+  color: #999;
+}

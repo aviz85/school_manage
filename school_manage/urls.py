@@ -29,6 +29,7 @@ router.register(r'teachers', views.TeacherViewSet)
 router.register(r'courses', views.CourseViewSet)
 router.register(r'enrollments', views.EnrollmentViewSet)
 router.register(r'grades', views.GradeViewSet)
+router.register(r'messages', views.MessageViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,8 +37,11 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/statistics/', get_statistics, name='get_statistics'),
-    # Keep your existing URL patterns
-    # path('add_student/', views.add_student, name='add_student'),
+    # Add these new URL patterns for the messaging system
+    path('api/messages/inbox/', views.MessageViewSet.as_view({'get': 'inbox'}), name='message-inbox'),
+    path('api/messages/sent/', views.MessageViewSet.as_view({'get': 'sent'}), name='message-sent'),
+    path('api/messages/unread-count/', views.MessageViewSet.as_view({'get': 'unread_count'}), name='message-unread-count'),
+    path('api/messages/<int:pk>/mark-as-read/', views.MessageViewSet.as_view({'post': 'mark_as_read'}), name='message-mark-as-read'),
     
     # Serve index.html for any other routes
     re_path(r'^', TemplateView.as_view(template_name='index.html')),

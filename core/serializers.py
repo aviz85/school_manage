@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, Teacher, Course, Enrollment, Grade
+from .models import Student, Teacher, Course, Enrollment, Grade, Message
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,3 +25,9 @@ class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Grade
         fields = ['id', 'enrollment', 'grade', 'date_graded']
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['id', 'sender', 'recipient', 'subject', 'content', 'timestamp', 'is_read']
+        read_only_fields = ['sender', 'timestamp']
