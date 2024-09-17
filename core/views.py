@@ -1,19 +1,24 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from .models import UserProfile, Student, Teacher, Course, Enrollment, Grade, Message
-from django import forms
 from django.core.exceptions import ObjectDoesNotExist
-import uuid
-from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
+from django.db.models import Q
+from rest_framework import viewsets, permissions, status as drf_status
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from .models import UserProfile, Student, Teacher, Course, Enrollment, Grade, Message
 from .serializers import StudentSerializer, TeacherSerializer, CourseSerializer, EnrollmentSerializer, GradeSerializer, MessageSerializer
-
-import openai
+from django import forms
+import uuid
+from openai import OpenAI
 from django.conf import settings
 import logging
+
+logger = logging.getLogger(__name__)
+
+# Initialize the OpenAI client
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 class StudentForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30)
@@ -157,7 +162,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
-    def verify_message(self, request):
+    def verify(self, request):
         content = request.data.get('content', '')
         
         prompt = f"""
@@ -174,8 +179,7 @@ class MessageViewSet(viewsets.ModelViewSet):
         """
 
         try:
-            openai.api_key = settings.OPENAI_API_KEY
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model=settings.OPENAI_MODEL,
                 messages=[
                     {"role": "system", "content": "You are an AI assistant that verifies school messages for appropriateness."},
@@ -183,14 +187,14 @@ class MessageViewSet(viewsets.ModelViewSet):
                 ]
             )
             
-            ai_response = response.choices[0].message['content'].strip()
+            ai_response = response.choices[0].message.content.strip()
             logger.info(f"OpenAI API response: {ai_response}")
             
-            status = "APPROVED" if "APPROVED" in ai_response else "REJECTED"
+            message_status = "APPROVED" if "APPROVED" in ai_response else "REJECTED"
             explanation = ai_response.split("Explanation:")[1].strip() if "Explanation:" in ai_response else ""
             
             return Response({
-                "status": status,
+                "status": message_status,
                 "explanation": explanation
             })
         except Exception as e:
@@ -198,7 +202,7 @@ class MessageViewSet(viewsets.ModelViewSet):
             return Response({
                 "status": "ERROR",
                 "explanation": f"An error occurred: {str(e)}"
-            }, status=500)
+            }, status=drf_status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Keep your existing views if needed
 # def add_student(request):
@@ -210,13 +214,12 @@ class MessageViewSet(viewsets.ModelViewSet):
 @permission_classes([IsAuthenticated])
 def test_openai(request):
     try:
-        openai.api_key = settings.OPENAI_API_KEY
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=settings.OPENAI_MODEL,
             messages=[
                 {"role": "user", "content": "Say 'Hello, World!'"}
             ]
         )
-        return Response({"message": response.choices[0].message['content']})
+        return Response({"message": response.choices[0].message.content})
     except Exception as e:
         return Response({"error": str(e)}, status=500)
