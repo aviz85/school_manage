@@ -17,6 +17,9 @@
 5. **Manage Course Catalog**
    - As an administrator, I want to view and manage the school's course catalog, so that I can ensure all necessary courses are available.
 
+6. **Send System-wide Announcements**
+   - As an administrator, I want to send messages to all users or specific groups (e.g., all teachers, all students), so that I can communicate important information efficiently.
+
 ## Teacher User Stories
 
 1. **View Enrolled Students**
@@ -34,6 +37,9 @@
 5. **View Student Performance Reports**
    - As a teacher, I want to view individual student performance reports, so that I can identify areas where students may need additional support.
 
+6. **Send Messages to Classes**
+   - As a teacher, I want to send messages to all students in my class at once, so that I can efficiently communicate course-related information.
+
 ## Student User Stories
 
 1. **View Course Schedule**
@@ -50,3 +56,26 @@
 
 5. **View Overall Academic Performance**
    - As a student, I want to view my overall GPA and academic standing, so that I can understand my overall performance.
+
+## Messaging System User Stories
+
+1. **Send Private Messages**
+   - As a user (admin, teacher, or student), I want to send private messages to other users in the system, so that I can communicate directly with individuals.
+
+2. **View and Manage Inbox**
+   - As a user, I want to view my inbox and read messages I've received, so that I can stay informed about communications within the system.
+
+3. **Reply to Messages**
+   - As a user, I want to reply to messages I've received, so that I can engage in two-way communication with other users.
+
+4. **Delete Messages**
+   - As a user, I want to delete messages from my inbox, so that I can manage my message storage and remove unnecessary communications.
+
+5. **Search Messages**
+   - As a user, I want to search through my messages, so that I can quickly find specific communications when needed.
+
+6. **Receive Notifications**
+   - As a user, I want to receive notifications for new messages, so that I can stay up-to-date with communications in real-time.
+
+7. **Manage Message Settings**
+   - As a user, I want to manage my message settings (e.g., email notifications), so that I can customize my messaging experience according to my preferences.
