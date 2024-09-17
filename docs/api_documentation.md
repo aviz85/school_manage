@@ -304,6 +304,26 @@
     - Description: Mark a specific message as read
     - Authentication: Required
 
+37. **Verify Message Content**
+    - URL: `/api/messages/verify/`
+    - Method: POST
+    - Description: Verify if the message content adheres to school rules and is appropriate
+    - Authentication: Required
+    - Request Body:
+      ```json
+      {
+        "content": "string"
+      }
+      ```
+    - Response:
+      ```json
+      {
+        "status": "string",
+        "explanation": "string"
+      }
+      ```
+    - Note: The status will be either "APPROVED" or "REJECTED". If rejected, an explanation will be provided.
+
 Note: All message endpoints require authentication. Include the access token in the Authorization header as `Bearer <token>` for all requests.
 
 Note: All endpoints require authentication. Include the access token in the Authorization header as `Bearer <token>` for all requests except the token obtain and refresh endpoints.

@@ -14,6 +14,8 @@ const ComposeMessage: React.FC<ComposeMessageProps> = ({ onClose, onMessageSent 
   const [content, setContent] = useState('');
   const [error, setError] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verificationResult, setVerificationResult] = useState<{ status: string; explanation: string } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +37,26 @@ const ComposeMessage: React.FC<ComposeMessageProps> = ({ onClose, onMessageSent 
       }
     } finally {
       setIsSending(false);
+    }
+  };
+
+  const handleVerify = async () => {
+    setIsVerifying(true);
+    setVerificationResult(null);
+    setError('');
+
+    try {
+      const response = await messageService.verifyMessage(content);
+      setVerificationResult(response.data);
+    } catch (error) {
+      console.error('Error verifying message:', error);
+      if (axios.isAxiosError(error) && error.response) {
+        setError(`Failed to verify message: ${error.response.data.explanation || error.message}`);
+      } else {
+        setError('Failed to verify message. Please try again.');
+      }
+    } finally {
+      setIsVerifying(false);
     }
   };
 
@@ -72,11 +94,20 @@ const ComposeMessage: React.FC<ComposeMessageProps> = ({ onClose, onMessageSent 
             required
           />
         </div>
+        {verificationResult && (
+          <div className={`verification-result ${verificationResult.status.toLowerCase()}`}>
+            <p>Status: {verificationResult.status}</p>
+            {verificationResult.explanation && <p>Explanation: {verificationResult.explanation}</p>}
+          </div>
+        )}
         <div className="form-actions">
-          <button type="submit" className="send-button" disabled={isSending}>
+          <button type="button" onClick={handleVerify} className="verify-button" disabled={isVerifying || !content}>
+            {isVerifying ? 'Verifying...' : 'Verify Message'}
+          </button>
+          <button type="submit" className="send-button" disabled={isSending || !verificationResult || verificationResult.status !== 'APPROVED'}>
             {isSending ? 'Sending...' : 'Send'}
           </button>
-          <button type="button" onClick={onClose} className="cancel-button" disabled={isSending}>
+          <button type="button" onClick={onClose} className="cancel-button" disabled={isSending || isVerifying}>
             Cancel
           </button>
         </div>

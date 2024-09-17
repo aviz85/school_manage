@@ -10,4 +10,6 @@ export const messageService = {
   markAsRead: (id: number) => axiosInstance.post(`${API_URL}/messages/${id}/mark-as-read/`),
   createMessage: (message: { recipient: string; subject: string; content: string }) => 
     axiosInstance.post(`${API_URL}/messages/`, message),
+  verifyMessage: (content: string) => 
+    axiosInstance.post(`${API_URL}/messages/verify/`, { content }),
 };

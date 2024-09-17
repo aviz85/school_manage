@@ -81,3 +81,28 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.verification-result {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.verification-result.approved {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.verification-result.rejected {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.verify-button {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.verify-button:hover:not(:disabled) {
+  background-color: #138496;
+}

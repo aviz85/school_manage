@@ -21,7 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from core import views
 from django.views.generic import TemplateView
 from django.views.static import serve
-from core.views import get_statistics
+from core.views import get_statistics, test_openai
 
 router = DefaultRouter()
 router.register(r'students', views.StudentViewSet)
@@ -42,7 +42,11 @@ urlpatterns = [
     path('api/messages/sent/', views.MessageViewSet.as_view({'get': 'sent'}), name='message-sent'),
     path('api/messages/unread-count/', views.MessageViewSet.as_view({'get': 'unread_count'}), name='message-unread-count'),
     path('api/messages/<int:pk>/mark-as-read/', views.MessageViewSet.as_view({'post': 'mark_as_read'}), name='message-mark-as-read'),
+    path('api/messages/verify/', views.MessageViewSet.as_view({'post': 'verify_message'}), name='verify-message'),
     
     # Serve index.html for any other routes
     re_path(r'^', TemplateView.as_view(template_name='index.html')),
+    
+    # Add this new URL pattern for testing OpenAI API
+    path('api/test-openai/', test_openai, name='test-openai'),
 ]

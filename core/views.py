@@ -11,6 +11,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .serializers import StudentSerializer, TeacherSerializer, CourseSerializer, EnrollmentSerializer, GradeSerializer, MessageSerializer
 
+import openai
+from django.conf import settings
+import logging
+
 class StudentForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
@@ -152,8 +156,67 @@ class MessageViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(messages, many=True)
         return Response(serializer.data)
 
+    @action(detail=False, methods=['post'])
+    def verify_message(self, request):
+        content = request.data.get('content', '')
+        
+        prompt = f"""
+        As an AI assistant for a school messaging system, your task is to verify if the following message adheres to school rules and is appropriate for communication within an educational setting. The message should be respectful, non-offensive, and relevant to school-related matters.
+
+        Please analyze the following message and respond with either "APPROVED" if the message is appropriate, or "REJECTED" along with a brief explanation if the message violates any school communication guidelines.
+
+        Message to verify:
+        "{content}"
+
+        Response format:
+        Status: [APPROVED/REJECTED]
+        Explanation: [If rejected, provide a brief explanation]
+        """
+
+        try:
+            openai.api_key = settings.OPENAI_API_KEY
+            response = openai.ChatCompletion.create(
+                model=settings.OPENAI_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are an AI assistant that verifies school messages for appropriateness."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            
+            ai_response = response.choices[0].message['content'].strip()
+            logger.info(f"OpenAI API response: {ai_response}")
+            
+            status = "APPROVED" if "APPROVED" in ai_response else "REJECTED"
+            explanation = ai_response.split("Explanation:")[1].strip() if "Explanation:" in ai_response else ""
+            
+            return Response({
+                "status": status,
+                "explanation": explanation
+            })
+        except Exception as e:
+            logger.error(f"Error in verify_message: {str(e)}")
+            return Response({
+                "status": "ERROR",
+                "explanation": f"An error occurred: {str(e)}"
+            }, status=500)
+
 # Keep your existing views if needed
 # def add_student(request):
 #     ...
 
 # Create your views here.
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def test_openai(request):
+    try:
+        openai.api_key = settings.OPENAI_API_KEY
+        response = openai.ChatCompletion.create(
+            model=settings.OPENAI_MODEL,
+            messages=[
+                {"role": "user", "content": "Say 'Hello, World!'"}
+            ]
+        )
+        return Response({"message": response.choices[0].message['content']})
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
