@@ -45,7 +45,7 @@ urlpatterns = [
     path('api/messages/verify/', views.MessageViewSet.as_view({'post': 'verify'}), name='verify-message'),
     
     # Serve index.html for any other routes
-    re_path(r'^', TemplateView.as_view(template_name='index.html')),
+    # re_path(r'^*', TemplateView.as_view(template_name='index.html')),
     
     # Add this new URL pattern for testing OpenAI API
     path('api/test-openai/', test_openai, name='test-openai'),

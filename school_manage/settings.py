@@ -31,8 +31,7 @@ SECRET_KEY = 'django-insecure-ax%9-)prpjja%!9uv#rfq!uppr2_y8+q4d(q%5a2agzg(%vze)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 
@@ -195,4 +194,4 @@ SIMPLE_JWT = {
 
 # OpenAI API Key and Model
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-OPENAI_MODEL = 'gpt-4'  # or 'gpt-3.5-turbo' if you don't have access to GPT-4
+OPENAI_MODEL = 'gpt-4o-mini'  # or 'gpt-3.5-turbo' if you don't have access to GPT-4
