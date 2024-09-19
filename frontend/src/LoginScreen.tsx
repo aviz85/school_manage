@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import apiService from './services/apiService';
 import './LoginScreen.css';
 
 const LoginScreen: React.FC = () => {
@@ -12,10 +12,7 @@ const LoginScreen: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/token/', {
-        username,
-        password,
-      });
+      const response = await apiService.login(username, password);
       
       localStorage.setItem('accessToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
