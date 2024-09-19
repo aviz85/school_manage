@@ -5,9 +5,10 @@ import LoginScreen from './LoginScreen';
 import WelcomeScreen from './WelcomeScreen';
 import NotificationBar from './components/NotificationBar';
 import MessageInbox from './components/MessageInbox';
+import { authService } from './services/authService';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
-  const isAuthenticated = !!localStorage.getItem('accessToken');
+  const isAuthenticated = authService.isAuthenticated();
   return isAuthenticated ? element : <Navigate to="/login" />;
 };
 

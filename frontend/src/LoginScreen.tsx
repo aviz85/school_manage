@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from './services/axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import './LoginScreen.css';
+import { authService } from './services/authService';
 
 const LoginScreen: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -12,15 +13,7 @@ const LoginScreen: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/token/', {
-        username,
-        password,
-      });
-      
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
-      localStorage.setItem('username', username);
-      
+      await authService.login(username, password);
       navigate('/welcome');
     } catch (err) {
       setError('Invalid username or password');

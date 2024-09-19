@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from './services/axiosConfig';
 import './Statistics.css';
 
 interface StatisticsData {
@@ -14,11 +14,7 @@ const Statistics: React.FC = () => {
   useEffect(() => {
     const fetchStatistics = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/statistics/', {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-          }
-        });
+        const response = await axiosInstance.get('/statistics/');
         setStats(response.data);
       } catch (error) {
         console.error('Error fetching statistics:', error);

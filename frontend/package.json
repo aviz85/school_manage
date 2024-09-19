@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postbuild": "mv build ../staticfiles"
+    "postbuild": "rm -rf ../staticfiles/static && mv build/static ../staticfiles/"
   },
   "eslintConfig": {
     "extends": [
