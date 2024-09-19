@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
-import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -21,18 +21,13 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ax%9-)prpjja%!9uv#rfq!uppr2_y8+q4d(q%5a2agzg(%vze)'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
 
@@ -51,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add this for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +61,7 @@ ROOT_URLCONF = 'school_manage.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'build')],  
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,8 +82,12 @@ WSGI_APPLICATION = 'school_manage.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
@@ -195,4 +195,4 @@ SIMPLE_JWT = {
 
 # OpenAI API Key and Model
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-OPENAI_MODEL = 'gpt-4'  # or 'gpt-3.5-turbo' if you don't have access to GPT-4
+OPENAI_MODEL = 'gpt-4o-mini'  # or 'gpt-3.5-turbo' if you don't have access to GPT-4
