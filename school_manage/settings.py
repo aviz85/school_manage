@@ -15,6 +15,7 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 import dj_database_url
+import urllib.parse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,17 +85,28 @@ WSGI_APPLICATION = 'school_manage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if os.getenv('DATABASE_URL'):
-    # Production database (PostgreSQL on Render)
+# Parse database connection url
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    # Parse the URL
+    parsed_url = urllib.parse.urlparse(DATABASE_URL)
+    
+    # Extract database information
+    db_config = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': parsed_url.path[1:],  # Remove leading slash
+        'USER': parsed_url.username,
+        'PASSWORD': parsed_url.password,
+        'HOST': parsed_url.hostname,
+        'PORT': parsed_url.port or '5432',  # Default PostgreSQL port
+    }
+    
     DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL'),
-            conn_max_age=600,
-            # Remove the conn_health_checks argument
-        )
+        'default': db_config
     }
 else:
-    # Development database (SQLite)
+    # Fallback to SQLite for development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
