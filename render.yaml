@@ -24,7 +24,6 @@ services:
   - type: web
     name: school-manage-frontend
     runtime: static
-    region: frankfurt  # Specify the same region here
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/build
     envVars:
