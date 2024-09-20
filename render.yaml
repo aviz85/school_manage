@@ -3,8 +3,7 @@ services:
   - type: web
     name: school-manage-backend
     runtime: python
-    plan: starter
-    region: frankfurt
+    region: frankfurt  # Specify the region here
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn school_manage.wsgi:application
     envVars:
@@ -25,6 +24,7 @@ services:
   - type: web
     name: school-manage-frontend
     runtime: static
+    region: frankfurt  # Specify the same region here
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/build
     envVars:
@@ -33,6 +33,7 @@ services:
 
 databases:
   - name: school-manage-db
+    region: frankfurt  # Specify the same region for the database
     databaseName: school_manage
     user: school_manage_user
     plan: starter
