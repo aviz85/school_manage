@@ -3,8 +3,8 @@ services:
   - type: web
     name: school-manage-backend
     runtime: python
-    region: frankfurt  # Specify the region here
-    buildCommand: pip install -r requirements.txt
+    region: frankfurt
+    buildCommand: ./build.sh
     startCommand: gunicorn school_manage.wsgi:application
     envVars:
       - key: SECRET_KEY
@@ -32,7 +32,7 @@ services:
 
 databases:
   - name: school-manage-db
-    region: frankfurt  # Specify the same region for the database
+    region: frankfurt
     databaseName: school_manage
     user: school_manage_user
     plan: starter
